@@ -24,6 +24,9 @@ class Link(models.Model):
     owner = models.ForeignKey(User, verbose_name="author", on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="created time")
 
+    def __str__(self):
+        return f"friendLink {self.id}"
+
     class Meta:
         verbose_name = verbose_name_plural = "friendLink"
 
@@ -58,5 +61,8 @@ class SideBar(models.Model):
     owner = models.ForeignKey(User, verbose_name="author", on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="created time")
 
+    def __str__(self):
+        return f"sideBar {self.id}"
+    
     class Meta:
         verbose_name = verbose_name_plural = "sideBar"

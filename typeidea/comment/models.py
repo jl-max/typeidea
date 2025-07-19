@@ -20,5 +20,8 @@ class Comment(models.Model):
     )
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="created time")
 
+    def __str__(self):
+        return f"comment {self.id}"
+
     class Meta:
         verbose_name = verbose_name_plural = "comment"

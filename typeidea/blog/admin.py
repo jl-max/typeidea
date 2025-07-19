@@ -5,6 +5,7 @@ from django.utils.html import format_html
 from .models import Post, Category, Tag
 from .adminforms import PostAdminForm
 from typeidea.custom_site import custom_site
+from typeidea.base_admin import BaseOwnerAdmin
 
 
 class PostInline(admin.TabularInline):
@@ -14,7 +15,7 @@ class PostInline(admin.TabularInline):
 
 
 @admin.register(Category, site=custom_site)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(BaseOwnerAdmin):
     inlines = [
         PostInline,
     ]
@@ -32,7 +33,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Tag, site=custom_site)
-class TagAdmin(admin.ModelAdmin):
+class TagAdmin(BaseOwnerAdmin):
     exclude = ("owner",)
     fields = ("name", "status")
 
@@ -56,7 +57,7 @@ class CategoryOwnerFilter(admin.SimpleListFilter):
 
 
 @admin.register(Post, site=custom_site)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(BaseOwnerAdmin):
     form = PostAdminForm
     list_display = [
         "title",
@@ -71,8 +72,6 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ["title", "category__name"]
 
     actions_on_top = True
-    # actions_on_bottom = True
-
     save_on_top = True
 
     fieldsets = (
@@ -100,7 +99,8 @@ class PostAdmin(admin.ModelAdmin):
 
     def operator(self, obj):
         return format_html(
-            '<a href="{}">edit</a>', reverse("cus_admin:blog_post_change", args=(obj.id,))
+            '<a href="{}">edit</a>',
+            reverse("cus_admin:blog_post_change", args=(obj.id,)),
         )
 
     operator.short_description = "operation"
