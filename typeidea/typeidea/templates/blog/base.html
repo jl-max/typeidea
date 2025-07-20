@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}index{% endblock %}- Typeidea Blog</title>
+</head>
+
+<body>
+    <div>top nav
+        {% for cate in navs %}
+        <a href="{% url 'category-list' cate.id %}">{{cate.name}}</a>
+        {% endfor %}
+    </div>
+    <hr />
+
+    {% block main %}
+    {% endblock %}
+
+    <hr />
+    <div>bottom nav
+        {% for cate in navs %}
+        <a href="{% url 'category-list' cate.id %}">{{cate.name}}</a>
+        {% endfor %}
+    </div>
+
+    <hr />
+    <div>
+        {% for sidebar in sidebars %}
+            <h4>{{sidebar.title}}</h4>
+            {{sidebar.content_html}}
+        {% endfor %}
+    </div>
+</body>
+
+</html>

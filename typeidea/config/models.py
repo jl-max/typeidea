@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.template.loader import render_to_string
 
 
 class Link(models.Model):
@@ -38,11 +39,15 @@ class SideBar(models.Model):
         (STATUS_SHOW, "display"),
         (STATUS_HIDE, "hide"),
     )
+    DISPLAY_HTML = 1
+    DISPLAY_LATEST = 2
+    DISPLAY_HOT = 3
+    DISPLAY_COMMENT = 4
     SIDE_TYPE = (
-        (1, "HTML"),
-        (2, "Newest Articles"),
-        (3, "Hottest Articles"),
-        (4, "Newest Comments"),
+        (DISPLAY_HTML, "HTML"),
+        (DISPLAY_LATEST, "Newest Articles"),
+        (DISPLAY_HOT, "Hottest Articles"),
+        (DISPLAY_COMMENT, "Newest Comments"),
     )
 
     title = models.CharField(max_length=50, verbose_name="title")
@@ -63,10 +68,29 @@ class SideBar(models.Model):
 
     def __str__(self):
         return f"sideBar {self.id}"
-    
+
     @classmethod
     def get_all(cls):
         return cls.objects.filter(status=cls.STATUS_SHOW)
+
+    @property
+    def content_html(self):
+        from blog.models import Post
+        from comment.models import Comment
+
+        result = ""
+        if self.display_type == self.DISPLAY_HTML:
+            result = self.content
+        elif self.display_type == self.DISPLAY_LATEST:
+            context = {"posts": Post.latest_posts()}
+            result = render_to_string("config/blocks/sidebar_posts.html", context)
+        elif self.display_type == self.DISPLAY_HOT:
+            context = {"posts": Post.hot_posts()}
+            result = render_to_string("config/blocks/sidebar_posts.html", context)
+        elif self.display_type == self.DISPLAY_COMMENT:
+            context = {"comments": Comment.objects.filter(status=Comment.STATUS_NORMAL)}
+            result = render_to_string("config/blocks/sidebar_comments.html", context)
+        return result
 
     class Meta:
         verbose_name = verbose_name_plural = "sideBar"

@@ -1,39 +1,17 @@
-<!DOCTYPE html>
-<html>
+{% extends "./base.html" %}
 
-<head>
-    <meta charset="utf-8" />
-    <title>Typeidea Blog</title>
-</head>
+{% block title %}{{ post.title }}{% endblock %}
 
-<body>
+{% block main %}
+    {% if post %}
+    <h1>{{ post.title }}</h1>
     <div>
-        {% if tag %}
-        tag: {{tag.name}}
-        {% endif %}
-
-        {% if tag%}
-        category: {{category.name}}
-        {%endif%}
-
-        {% if post%}
-        <h1>{{post.title}}</h1>
-        <div>
-            <span>author: {{post.owner.username}}</span>
-            <span>category: {{post.category.name}}</span>
-        </div>
-        <hr />
-        <p>
-            {{post.content}}
-        </p>
-        {%endif%}
+        <span>author: {{ post.owner.username }}</span>
+        <span>category: {{ post.category.name }}</span>
     </div>
-    <div>
-        {% for sidebar in sidebars %}
-            <h4>{{sidebar.title}}</h4>
-            {{sidebar.content}}
-        {% endfor %}
-    </div>
-</body>
-
-</html>
+    <hr />
+    <p>
+        {{ post.content }}
+    </p>
+    {% endif %}
+{% endblock %}
