@@ -1,3 +1,4 @@
+import mistune
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -88,6 +89,8 @@ class Post(models.Model):
     pv = models.PositiveIntegerField(default=1)
     uv = models.PositiveIntegerField(default=1)
 
+    content_html = models.TextField(verbose_name='content html', blank=True, editable=False)
+
     @classmethod
     def hot_posts(cls):
         return cls.objects.filter(status=cls.STATUS_NORMAL).order_by("-pv")
@@ -127,6 +130,10 @@ class Post(models.Model):
     def latest_posts(cls):
         queryset = cls.objects.filter(status=cls.STATUS_NORMAL)
         return queryset
+    
+    def save(self, *args, **kwargs):
+        self.content_html = mistune.markdown(self.content)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = verbose_name_plural = "article"
