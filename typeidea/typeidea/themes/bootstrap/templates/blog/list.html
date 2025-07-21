@@ -15,15 +15,17 @@ index
 <div class="card post">
     <div class="card-body">
         <h5 class="card-title"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
-        <span class="card-link">author: <a href="#">{{ post.owner.username }}</a></span>
+        <span class="card-link">author: <a href="{% url 'author' post.owner.id %}">{{ post.owner.username }}</a></span>
         <span class="card-link">category:
             <a href="{% url 'category-list' post.category.id %}">{{ post.category.name }}</a>
         </span>
+        {% if tag %}
         <span class="card-link">tag:
             {% for tag in post.tag.all %}
             <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a>
             {% endfor %}
         </span>
+        {% endif %}
         <p class="card-text">{{ post.abstract }}
             <a href="{% url 'post-detail' post.id %}">whole content</a>
         </p>

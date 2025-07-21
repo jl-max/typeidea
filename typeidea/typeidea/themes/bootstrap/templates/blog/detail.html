@@ -8,7 +8,7 @@
 {% if post %}
 <h1>{{ post.title }}</h1>
 <div>
-    <span>author: {{ post.owner.username }}</span>
+    <span>author: <a href="{% url 'author' post.owner.id %}">{{ post.owner.username }}</a></span>
     <span>category: <a href="{% url 'category-list' post.category.id %}">{{ post.category.name }}</a></span>
 </div>
 <hr />
