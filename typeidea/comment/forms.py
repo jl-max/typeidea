@@ -5,29 +5,29 @@ from .models import Comment
 
 class CommentForm(forms.ModelForm):
     nickname = forms.CharField(
-        label="nickname",
+        label="Nickname",
         max_length=50,
         widget=forms.widgets.Input(
             attrs={"class": "form-control", "style": "width:60%;"}
         ),
     )
     email = forms.CharField(
-        label="email",
+        label="Email",
         max_length=50,
         widget=forms.widgets.EmailInput(
             attrs={"class": "form-control", "style": "width: 60%;"}
         ),
     )
     website = forms.CharField(
-        label="website",
-        max_length=100,
+        label="Website",
+        max_length=200,
         widget=forms.widgets.URLInput(
             attrs={"class": "form-control", "style": "width: 60%;"}
         ),
     )
     content = forms.CharField(
-        label="content",
-        max_length=500,
+        label="Content",
+        max_length=2000,
         widget=forms.widgets.Textarea(
             attrs={"rows": 6, "cols": 60, "class": "form-control"}
         ),
@@ -36,7 +36,7 @@ class CommentForm(forms.ModelForm):
     def clean_content(self):
         content = self.cleaned_data.get("content")
         if len(content) < 10:
-            raise forms.ValidationError("content expected to be longer than 10!")
+            raise forms.ValidationError("Content is expected to be longer than 10!")
         return content
 
     class Meta:
