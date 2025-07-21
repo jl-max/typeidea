@@ -1,7 +1,23 @@
-<ul>
-    {% for post in posts %}
-    <li>
-        <a href="{% url 'post-detail' post.id %}">{{post.title}}</a>
-    </li>
-    {% endfor %}
-</ul>
+{% extends 'blog/base.html' %}
+{% block title %}Friend links{% endblock %}
+
+{% block main %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">name</th>
+            <th scope="col">site</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for link in link_list %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ link.title }}</td>
+            <td><a href="{{ link.href }}" target="_blank" rel="noopener noreferrer">{{ link.href }}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

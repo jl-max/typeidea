@@ -32,6 +32,9 @@
                             <a class="nav-link" href="{% url 'category-list' cate.id %}">{{ cate.name }}</a>
                         </li>
                         {% endfor %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'links' %}">FriendLinks</a>
+                        </li>
                     </ul>
                     <form class="d-flex" role="search" action="/search/" method="get">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
