@@ -1,0 +1,45 @@
+{% extends "./base.html" %}
+
+{% block title %}
+{% if tag %}
+tag: {{ tag.name }}
+{% elif category %}
+category: {{ category.name }}
+{% else %}
+index
+{% endif %}
+{% endblock %}
+
+{% block main %}
+{% for post in post_list %}
+<div class="card post">
+    <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+        <span class="card-link">author: <a href="#">{{ post.owner.username }}</a></span>
+        <span class="card-link">category:
+            <a href="{% url 'category-list' post.category.id %}">{{ post.category.name }}</a>
+        </span>
+        <span class="card-link">tag:
+            {% for tag in post.tag.all %}
+            <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a>
+            {% endfor %}
+        </span>
+        <p class="card-text">{{ post.abstract }}
+            <a href="{% url 'post-detail' post.id %}">whole content</a>
+        </p>
+    </div>
+</div>
+{% endfor %}
+
+
+{% if page_obj %}
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}">last page</a>
+{% endif %}
+Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}">next page</a>
+{% endif %}
+{% endif %}
+
+{% endblock %}
