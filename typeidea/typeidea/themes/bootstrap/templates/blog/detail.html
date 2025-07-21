@@ -1,8 +1,15 @@
 {% extends "./base.html" %}
+{% load static %}
 {% load comment_block %}
 
 {% block title %}
 {{ post.title }}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/github11.11.1.min.css' %}">
+<script src="{% static 'js/highlight11.11.1.min.js' %}"></script>
+<script>hljs.highlightAll();</script>
 {% endblock %}
 
 {% block main %}
